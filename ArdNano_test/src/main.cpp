@@ -38,6 +38,9 @@ void LEDcontrol(OSCMessage &msg)
     }
 }
 
+constexpr auto blinkRatesSize = 8;
+int blinkRates[blinkRatesSize] = { 2, 5, 10, 12, 15, 17, 20, 22 };
+
 void setup() {
   // put your setup code here, to run once:
   pinMode(LED_BUILTIN, OUTPUT);
@@ -50,15 +53,33 @@ void loop() {
  // delay(500);
  // digitalWrite(LED_BUILTIN, LOW);
  // delay(500);
-  OSCMessage msg("/analog/");
-  msg.add("1");
-  msg.add("2");
+//  OSCMessage msg("/a");
+//  msg.add("bb");
+  //msg.add("2");
 
-  SLIPSerial.beginPacket();  
+//  SLIPSerial.beginPacket();  
+//    msg.send(SLIPSerial); // send the bytes to the SLIP stream
+//  SLIPSerial.endPacket(); // mark the end of the OSC Packet
+//  msg.empty(); // free space occupied by message
+  //msg.send(Serial);
+
+ // delay(500);
+
+ //the message wants an OSC address as first argument
+    OSCMessage msg("/led");
+
+    auto i = rand() % (blinkRatesSize - 1);
+    auto blinkRateOn = blinkRates[i];
+
+    auto j = rand() % (blinkRatesSize - 1);
+    auto blinkRateOff = blinkRates[j];
+
+    msg.add(blinkRateOn).add(blinkRateOff);
+
+    //SLIPSerial.beginPacket();
     msg.send(SLIPSerial); // send the bytes to the SLIP stream
-  SLIPSerial.endPacket(); // mark the end of the OSC Packet
-  msg.empty(); // free space occupied by message
+    //SLIPSerial.endPacket(); // mark the end of the OSC Packet
+    //msg.empty(); // free space occupied by message
 
-  delay(500);
-
+    delay(500);
 }
