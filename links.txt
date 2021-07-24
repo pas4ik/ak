@@ -1,0 +1,8 @@
+https://habr.com/ru/post/382565/
+Ethernet Library или почему в природе не существует серверов на Arduino
+
+https://github.com/jandrassy/EthernetENC
+библиотека Ethernet для ENC28J60
+
+https://github.com/CNMAT/OSC
+библиотека OSC
