@@ -1,0 +1,53 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<Production>
+   <Head>
+      <Title>test1</Title>
+      <ProdId>1F26B656</ProdId>
+      <Version>11.8.4.1</Version>
+      <Build>20210331</Build>
+      <PRLogicalDev0>Front</PRLogicalDev0>
+      <PRNumChans0>2</PRNumChans0>
+      <PRAutoIncludeDev0>1</PRAutoIncludeDev0>
+      <DfltDBLevel0>-3.0</DfltDBLevel0>
+      <PreviewDevice>Front</PreviewDevice>
+      <PRVidAudLogicalDev0>Default</PRVidAudLogicalDev0>
+      <PRAutoIncludeVidAud0>1</PRAutoIncludeVidAud0>
+      <DfltVidAudDBLevel0>-3.0</DfltVidAudDBLevel0>
+      <PRCtrlSendLogicalDev0>Network</PRCtrlSendLogicalDev0>
+      <PRCtrlSendDevType0>TelnetOut</PRCtrlSendDevType0>
+      <PRCSDevice>
+         <PRCSLogicalDev>Network</PRCSLogicalDev>
+         <PRCSDevType>NetworkOut</PRCSDevType>
+         <PRCSNetworkRemoteDev>OSC-Other</PRCSNetworkRemoteDev>
+         <PRCSNetworkProtocol>UDP</PRCSNetworkProtocol>
+         <PRCSNetworkRole>Client</PRCSNetworkRole>
+         <PRCSNetworkReplyMsgAddCR>1</PRCSNetworkReplyMsgAddCR>
+         <PRCSNetworkReplyMsgAddLF>0</PRCSNetworkReplyMsgAddLF>
+      </PRCSDevice>
+      <FocusPoint>NextManual</FocusPoint>
+   </Head>
+   <Cue>
+      <CueId>Q1</CueId>
+      <Description>Network but Go Cue 1</Description>
+      <DefDes>1</DefDes>
+      <Sub>
+         <SubType>M</SubType>
+         <SubDescription>Network but Go Cue 1</SubDescription>
+         <DefSubDes>1</DefSubDes>
+         <ControlMessage>
+            <CMLogicalDev>Network</CMLogicalDev>
+            <CMItemDesc>but</CMItemDesc>
+            <OSCCmdType>gocue</OSCCmdType>
+            <OSCItemString>1</OSCItemString>
+         </ControlMessage>
+      </Sub>
+   </Cue>
+   <Files>
+   </Files>
+   <FileSaveInfo>
+      <_CueFile_>D:\temp\ak\test1.scs11</_CueFile_>
+      <_Saved_>2021/07/24 23:28:34</_Saved_>
+      <_SCS_Version_>11.8.4.1 (Demo)</_SCS_Version_>
+      <_SCS_Build_>2021/03/31 10:20</_SCS_Build_>
+   </FileSaveInfo>
+</Production>
