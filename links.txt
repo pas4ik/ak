@@ -6,3 +6,7 @@ https://github.com/jandrassy/EthernetENC
 
 https://github.com/CNMAT/OSC
 библиотека OSC
+
+
+/but2,i1
+2F 62 75 74 32 00 00 00 2C 69 00 00 00 00 00 31
