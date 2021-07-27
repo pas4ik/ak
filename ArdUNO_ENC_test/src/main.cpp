@@ -1,8 +1,10 @@
 #include <Arduino.h>
-#include "OSCBoards.h"
-#include "OSCBundle.h"
+//#include "OSCBoards.h"
+//#include "OSCBundle.h"
 #include <SPI.h>
-#include "EthernetENC.h"
+//#include "EthernetENC.h"
+#include "Ethernet2.h"
+#include <EthernetUdp2.h>
 
 byte mac[] = {
   0xDE, 0xAD, 0xBE, 0xEF, 0xFE, 0xED
@@ -20,7 +22,9 @@ void setup() {
   Ethernet.init(10);  // CS pin
   Ethernet.begin(mac, ip);
 
-  if (Ethernet.hardwareStatus() == EthernetNoHardware) {
+  delay(1000);
+
+/*  if (Ethernet.hardwareStatus() == EthernetNoHardware) {
     Serial.println("Ethernet shield was not found.  Sorry, can't run without hardware. :(");
     while (true) {
       delay(1);
@@ -32,7 +36,7 @@ void setup() {
     Serial.println("Ethernet cable is not connected.");
     }
   }
-
+*/
   Udp.begin(localPort);
   Serial.print("Listen on port: ");
   Serial.println(localPort, DEC);
@@ -52,6 +56,9 @@ void loop() {
       LED_st = 1;
       //digitalWrite(LED_BUILTIN, HIGH);
       Serial.println("LED is on");
+      Udp.beginPacket(ip, 8001);
+      Udp.write("LED is on");
+      Udp.endPacket();
     } else
     {
       LED_st = 0;
@@ -77,7 +84,7 @@ void loop() {
         if (i < 3) {
           Serial.print(".");
         }
-      }
+      }   
       Serial.print(", port ");
       Serial.println(Udp.remotePort());
 
