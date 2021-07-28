@@ -10,6 +10,8 @@ SLIPEncodedUSBSerial SLIPSerial( thisBoardsSerialUSB );
  SLIPEncodedSerial SLIPSerial(Serial);
 #endif
 
+uint16_t i;
+
 void LEDcontrol(OSCMessage &msg)
 {
     if (msg.isInt(0))
@@ -39,7 +41,7 @@ void LEDcontrol(OSCMessage &msg)
 }
 
 constexpr auto blinkRatesSize = 8;
-int blinkRates[blinkRatesSize] = { 2, 5, 10, 12, 15, 17, 20, 22 };
+int blinkRates[blinkRatesSize] = { 48, 49, 48, 49, 48, 49, 48, 49};
 
 void setup() {
   // put your setup code here, to run once:
@@ -66,20 +68,21 @@ void loop() {
  // delay(500);
 
  //the message wants an OSC address as first argument
-    OSCMessage msg("/led");
+    OSCMessage msg("/but2");
 
-    auto i = rand() % (blinkRatesSize - 1);
+    if (i < 7) i++; else i = 0;
+    //auto i = rand() % (blinkRatesSize - 1);
     auto blinkRateOn = blinkRates[i];
 
-    auto j = rand() % (blinkRatesSize - 1);
-    auto blinkRateOff = blinkRates[j];
+    //auto j = rand() % (blinkRatesSize - 1);
+    //auto blinkRateOff = blinkRates[j];
 
-    msg.add(blinkRateOn).add(blinkRateOff);
+    msg.add(blinkRateOn);//.add(blinkRateOff);
 
     //SLIPSerial.beginPacket();
     msg.send(SLIPSerial); // send the bytes to the SLIP stream
     //SLIPSerial.endPacket(); // mark the end of the OSC Packet
     //msg.empty(); // free space occupied by message
 
-    delay(500);
+    delay(1000);
 }
