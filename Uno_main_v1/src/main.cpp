@@ -54,7 +54,7 @@ void loop() {
   static uint16_t       phone_timeout_num = 0;
   static String   content = "";
   char ch;
-  static uint8_t  com = 0, phone_state = 0, phone_state1 = 0;
+  static uint8_t  com = 0, phone_state = 0;
   const uint8_t   Phone_numb[] = {0,5,0,1,0,4,0,2,0,6,0,6,0,1,0};
   static uint8_t  phone_num_ind, phone_cnt_rings;
 // test
@@ -116,10 +116,7 @@ void loop() {
       content = ""; // reset buf
       com = 1;
       phone_state = 1;
-      phone_state1 = 0;
       phone_num_ind = 0;
-      //Serial.println("is com phone");
-      
     }
   }
 
@@ -139,17 +136,16 @@ void loop() {
       content = strcat(packetBuffer,"");
       if (content.equals("/phone,1"))
       {
-        content = ""; // reset buf
         com = 1;
         phone_state = 1;
-        phone_state1 = 0;
         phone_num_ind = 0;
         //Serial.println("is com phone");
         
       } else
       if (content.equals("/phone,0"))
       {
-        
+        //com = 0;
+        phone_state = 10;
       } else
       if (content.equals("/energymeter_flash,1"))
       {
@@ -251,10 +247,6 @@ void loop() {
           phone_state = 3;
         }
       }
-
-
-      //com = 0;
-      //Serial.println("end");
     } else
     if (phone_state == 3)
     {
@@ -277,17 +269,18 @@ void loop() {
       {
         // голос в трубке закончился
         phone_state = 10;
-      }
-      
+      }    
     } else
     if (phone_state == 10)
     {
       com = 0;
+      serv.write(145);
       Serial.println("end");
     }
-
-
-
+  } else
+  if (com == 0)
+  {
+    serv.write(145);
   }
 
 /*
