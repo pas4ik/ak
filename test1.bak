@@ -13,12 +13,11 @@
       <PRVidAudLogicalDev0>Default</PRVidAudLogicalDev0>
       <PRAutoIncludeVidAud0>1</PRAutoIncludeVidAud0>
       <DfltVidAudDBLevel0>-3.0</DfltVidAudDBLevel0>
-      <PRCtrlSendLogicalDev0>Network</PRCtrlSendLogicalDev0>
+      <PRCtrlSendLogicalDev0>animatron</PRCtrlSendLogicalDev0>
       <PRCtrlSendDevType0>TelnetOut</PRCtrlSendDevType0>
       <PRCSDevice>
-         <PRCSLogicalDev>Network</PRCSLogicalDev>
+         <PRCSLogicalDev>animatron</PRCSLogicalDev>
          <PRCSDevType>NetworkOut</PRCSDevType>
-         <PRCSNetworkRemoteDev>OSC-Other</PRCSNetworkRemoteDev>
          <PRCSNetworkProtocol>UDP</PRCSNetworkProtocol>
          <PRCSNetworkRole>Client</PRCSNetworkRole>
          <PRCSNetworkReplyMsgAddCR>1</PRCSNetworkReplyMsgAddCR>
@@ -28,17 +27,161 @@
    </Head>
    <Cue>
       <CueId>Q1</CueId>
-      <Description>Network but Go Cue 1</Description>
-      <DefDes>1</DefDes>
+      <Description>телефон пуск</Description>
       <Sub>
          <SubType>M</SubType>
-         <SubDescription>Network but Go Cue 1</SubDescription>
+         <SubDescription>Network Send</SubDescription>
          <DefSubDes>1</DefSubDes>
          <ControlMessage>
-            <CMLogicalDev>Network</CMLogicalDev>
-            <CMItemDesc>but</CMItemDesc>
-            <OSCCmdType>gocue</OSCCmdType>
-            <OSCItemString>1</OSCItemString>
+            <CMLogicalDev>animatron</CMLogicalDev>
+            <NetworkEntryMode>ASCII</NetworkEntryMode>
+            <NetworkAddCR>0</NetworkAddCR>
+            <NetworkAddLF>0</NetworkAddLF>
+            <NetworkData>/phone,1</NetworkData>
+         </ControlMessage>
+      </Sub>
+   </Cue>
+   <Cue>
+      <CueId>Q2</CueId>
+      <Description>электросчетчик пуск</Description>
+      <Sub>
+         <SubType>M</SubType>
+         <SubDescription>Network Send</SubDescription>
+         <DefSubDes>1</DefSubDes>
+         <ControlMessage>
+            <CMLogicalDev>animatron</CMLogicalDev>
+            <NetworkEntryMode>ASCII</NetworkEntryMode>
+            <NetworkAddCR>0</NetworkAddCR>
+            <NetworkAddLF>0</NetworkAddLF>
+            <NetworkData>/energymeter_flash,1</NetworkData>
+         </ControlMessage>
+      </Sub>
+   </Cue>
+   <Cue>
+      <CueId>Q3</CueId>
+      <Description>почтовый ящик пуск</Description>
+      <Sub>
+         <SubType>M</SubType>
+         <SubDescription>Network Send</SubDescription>
+         <DefSubDes>1</DefSubDes>
+         <ControlMessage>
+            <CMLogicalDev>animatron</CMLogicalDev>
+            <NetworkEntryMode>ASCII</NetworkEntryMode>
+            <NetworkAddCR>0</NetworkAddCR>
+            <NetworkAddLF>0</NetworkAddLF>
+            <NetworkData>/postbox,1</NetworkData>
+         </ControlMessage>
+      </Sub>
+   </Cue>
+   <Cue>
+      <CueId>Q4</CueId>
+      <Description>мячик выдвинуть</Description>
+      <Sub>
+         <SubType>M</SubType>
+         <SubDescription>Network Send</SubDescription>
+         <DefSubDes>1</DefSubDes>
+         <ControlMessage>
+            <CMLogicalDev>animatron</CMLogicalDev>
+            <NetworkEntryMode>ASCII</NetworkEntryMode>
+            <NetworkAddCR>0</NetworkAddCR>
+            <NetworkAddLF>0</NetworkAddLF>
+            <NetworkData>/ball,1</NetworkData>
+         </ControlMessage>
+      </Sub>
+   </Cue>
+   <Cue>
+      <CueId>Q5</CueId>
+      <Description>рубильник удерж</Description>
+      <Sub>
+         <SubType>M</SubType>
+         <SubDescription>Network Send</SubDescription>
+         <DefSubDes>1</DefSubDes>
+         <ControlMessage>
+            <CMLogicalDev>animatron</CMLogicalDev>
+            <NetworkEntryMode>ASCII</NetworkEntryMode>
+            <NetworkAddCR>0</NetworkAddCR>
+            <NetworkAddLF>0</NetworkAddLF>
+            <NetworkData>/breaker,1</NetworkData>
+         </ControlMessage>
+      </Sub>
+   </Cue>
+   <Cue>
+      <CueId>Q6</CueId>
+      <Description>телефон стоп</Description>
+      <Sub>
+         <SubType>M</SubType>
+         <SubDescription>Network Send</SubDescription>
+         <DefSubDes>1</DefSubDes>
+         <ControlMessage>
+            <CMLogicalDev>animatron</CMLogicalDev>
+            <NetworkEntryMode>ASCII</NetworkEntryMode>
+            <NetworkAddCR>0</NetworkAddCR>
+            <NetworkAddLF>0</NetworkAddLF>
+            <NetworkData>/phone,0</NetworkData>
+         </ControlMessage>
+      </Sub>
+   </Cue>
+   <Cue>
+      <CueId>Q7</CueId>
+      <Description>электросчетчик стоп</Description>
+      <Sub>
+         <SubType>M</SubType>
+         <SubDescription>Network Send</SubDescription>
+         <DefSubDes>1</DefSubDes>
+         <ControlMessage>
+            <CMLogicalDev>animatron</CMLogicalDev>
+            <NetworkEntryMode>ASCII</NetworkEntryMode>
+            <NetworkAddCR>0</NetworkAddCR>
+            <NetworkAddLF>0</NetworkAddLF>
+            <NetworkData>/energymeter_flash,0</NetworkData>
+         </ControlMessage>
+      </Sub>
+   </Cue>
+   <Cue>
+      <CueId>Q8</CueId>
+      <Description>почтовый ящик стоп</Description>
+      <Sub>
+         <SubType>M</SubType>
+         <SubDescription>Network Send</SubDescription>
+         <DefSubDes>1</DefSubDes>
+         <ControlMessage>
+            <CMLogicalDev>animatron</CMLogicalDev>
+            <NetworkEntryMode>ASCII</NetworkEntryMode>
+            <NetworkAddCR>0</NetworkAddCR>
+            <NetworkAddLF>0</NetworkAddLF>
+            <NetworkData>/postbox,0</NetworkData>
+         </ControlMessage>
+      </Sub>
+   </Cue>
+   <Cue>
+      <CueId>Q9</CueId>
+      <Description>мячик выдвинуть</Description>
+      <Sub>
+         <SubType>M</SubType>
+         <SubDescription>Network Send</SubDescription>
+         <DefSubDes>1</DefSubDes>
+         <ControlMessage>
+            <CMLogicalDev>animatron</CMLogicalDev>
+            <NetworkEntryMode>ASCII</NetworkEntryMode>
+            <NetworkAddCR>0</NetworkAddCR>
+            <NetworkAddLF>0</NetworkAddLF>
+            <NetworkData>/ball,0</NetworkData>
+         </ControlMessage>
+      </Sub>
+   </Cue>
+   <Cue>
+      <CueId>Q10</CueId>
+      <Description>рубильник отпус</Description>
+      <Sub>
+         <SubType>M</SubType>
+         <SubDescription>Network Send</SubDescription>
+         <DefSubDes>1</DefSubDes>
+         <ControlMessage>
+            <CMLogicalDev>animatron</CMLogicalDev>
+            <NetworkEntryMode>ASCII</NetworkEntryMode>
+            <NetworkAddCR>0</NetworkAddCR>
+            <NetworkAddLF>0</NetworkAddLF>
+            <NetworkData>/breaker,0</NetworkData>
          </ControlMessage>
       </Sub>
    </Cue>
@@ -46,7 +189,7 @@
    </Files>
    <FileSaveInfo>
       <_CueFile_>D:\temp\ak\test1.scs11</_CueFile_>
-      <_Saved_>2021/07/24 23:28:34</_Saved_>
+      <_Saved_>2021/07/29 20:01:26</_Saved_>
       <_SCS_Version_>11.8.4.1 (Demo)</_SCS_Version_>
       <_SCS_Build_>2021/03/31 10:20</_SCS_Build_>
    </FileSaveInfo>
