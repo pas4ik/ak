@@ -3,11 +3,14 @@
 #include "Servo.h"
 #include "Ethernet2.h"
 #include "EthernetUdp2.h"
+#include "SoftwareSerial.h"
 
 Servo serv;
+
+SoftwareSerial swserial1(2, 3);
+
 byte mac[] = { 0xDE, 0xAD, 0xBE, 0xEF, 0xFE, 0xED};
 IPAddress ip(192, 168, 16, 2);
-
 unsigned int localPort = 8001;      // local port to listen on
 char packetBuffer[50];  // buffer to hold incoming packet,
 char ReplyBuffer[] = "acknowledged\n";        // a string to send back
@@ -15,9 +18,10 @@ EthernetUDP Udp;  // An EthernetUDP instance to let us send and receive packets 
 
 void setup() {
   Serial.begin(9600);
-  
+  swserial1.begin(9600);    // interface for radio control
+
   serv.attach(9);
-  serv.write(40);
+  serv.write(145);
 
   Ethernet.init(10);  // CS pin
   Ethernet.begin(mac, ip);
@@ -51,7 +55,7 @@ void loop() {
   static String   content = "";
   char ch;
   static uint8_t  com = 0, phone_state = 0, phone_state1 = 0;
-  const uint8_t   Phone_numb[] = {0,5,0,1,0,4,0,2,0};
+  const uint8_t   Phone_numb[] = {0,5,0,1,0,4,0,2,0,6,0,6,0,1,0};
   static uint8_t  phone_num_ind, phone_cnt_rings;
 // test
 /*
@@ -119,6 +123,76 @@ void loop() {
     }
   }
 
+  UDP_time = millis();
+  if (UDP_time > UDP_time_old + 10)
+  {
+    UDP_time_old = UDP_time;
+
+    int packetSize = Udp.parsePacket();
+    if (packetSize)
+    {
+      IPAddress remote = Udp.remoteIP();    
+      //Serial.println(Udp.remotePort());
+      for (uint16_t _i = 0; _i < 50; _i++) packetBuffer[_i] = 0;
+      Udp.read(packetBuffer, packetSize);
+      content = "";
+      content = strcat(packetBuffer,"");
+      if (content.equals("/phone,1"))
+      {
+        content = ""; // reset buf
+        com = 1;
+        phone_state = 1;
+        phone_state1 = 0;
+        phone_num_ind = 0;
+        //Serial.println("is com phone");
+        
+      } else
+      if (content.equals("/phone,0"))
+      {
+        
+      } else
+      if (content.equals("/energymeter_flash,1"))
+      {
+        digitalWrite(14, LOW);
+      } else
+      if (content.equals("/energymeter_flash,0"))
+      {
+        digitalWrite(14, HIGH);
+      } else
+      if (content.equals("/postbox,1"))
+      {
+        swserial1.println("STA");
+      } else
+      if (content.equals("/postbox,0"))
+      {
+        swserial1.println("STO");
+      } else
+      if (content.equals("/ball,1"))
+      {
+        digitalWrite(19, LOW);
+        digitalWrite(18, HIGH);
+      } else
+      if (content.equals("/ball,0"))
+      {
+        digitalWrite(18, LOW);
+        digitalWrite(19, HIGH);
+      } else
+      if (content.equals("/breaker,1"))
+      {
+        digitalWrite(15, LOW);
+      } else
+      if (content.equals("/breaker,0"))
+      {
+        digitalWrite(15, HIGH);
+      }
+
+      Udp.beginPacket(Udp.remoteIP(), Udp.remotePort());
+      Udp.write(packetBuffer);
+      //Udp.write(content);
+      Udp.endPacket();
+    }
+  }
+
   phone_time = millis();
   if ((com == 1) && (phone_time > phone_time_old + 100))
   {
@@ -126,7 +200,7 @@ void loop() {
     
     if (phone_state == 1)
     {
-      if (phone_timeout_num++ > 15)
+      if (phone_timeout_num++ > 10)
       {
         phone_timeout_num = 0;
         if (phone_num_ind < sizeof(Phone_numb))
@@ -135,16 +209,16 @@ void loop() {
           if (Phone_numb[phone_num_ind - 1] > 0)
           {
             Serial.println(Phone_numb[phone_num_ind - 1]);
-            Serial.println(75 + ((Phone_numb[phone_num_ind - 1] - 1) * 12));
-            serv.write(75 + ((Phone_numb[phone_num_ind - 1] - 1)* 12));
+            Serial.println(145 - ((Phone_numb[phone_num_ind - 1]) * 17));
+            serv.write(145 - ((Phone_numb[phone_num_ind - 1])* 17));
           } else
           {
-            Serial.println(40);
-            serv.write(40);
+            Serial.println(145);
+            serv.write(145);
           }
         } else
         {
-          serv.write(40);
+          serv.write(145);
           phone_state = 2;
           phone_cnt_rings = 0;
         }
@@ -216,7 +290,7 @@ void loop() {
 
   }
 
-
+/*
   UDP_time = millis();
   if (UDP_time > UDP_time_old + 100)
   {
@@ -249,5 +323,5 @@ void loop() {
       Udp.endPacket();
     }
   }
-
+*/
 }
