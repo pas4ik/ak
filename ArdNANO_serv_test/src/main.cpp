@@ -3,7 +3,8 @@
 #include "SoftwareSerial.h"
 
 #define SERVO_GO    73
-#define SERVO_STOP  87
+//#define SERVO_STOP  87
+#define SERVO_STOP  1450
 #define START_BYTE  'S'
 #define START       1
 #define STOP        2
@@ -19,7 +20,8 @@ void setup() {
   pinMode(PIN_GERKON, INPUT_PULLUP); // input zero gerkon
   swserial1.begin(9600);    // interface for radio control
   serv.attach(7);           // servo pin
-  serv.write(SERVO_STOP);
+  //serv.write(SERVO_STOP);
+  serv.writeMicroseconds(SERVO_STOP);
 }
 
 void loop() {
@@ -67,7 +69,8 @@ void loop() {
     if (digitalRead(PIN_GERKON) == 0)
     {
       digitalWrite(LED_BUILTIN, LOW);
-      serv.write(SERVO_STOP);
+      //serv.write(SERVO_STOP);
+      serv.writeMicroseconds(SERVO_STOP);
       run = 0;
       com = 0;
       //swserial1.write('g');
@@ -75,7 +78,8 @@ void loop() {
     if (millis() > time_com_stop + TIMEOUT_STOP_WO_GERK)
     {
       digitalWrite(LED_BUILTIN, LOW);
-      serv.write(SERVO_STOP);
+      //serv.write(SERVO_STOP);
+      serv.writeMicroseconds(SERVO_STOP);
       run = 0;
       com = 0;
     }
