@@ -39,13 +39,15 @@ void setup() {
   digitalWrite(6, HIGH);
   pinMode(7, INPUT_PULLUP);
 
-  pinMode(PIN_A0, OUTPUT);
-  digitalWrite(PIN_A0, HIGH);
-  pinMode(PIN_A1, OUTPUT);
-  digitalWrite(PIN_A1, HIGH);
-  
-  pinMode(PIN_A4, OUTPUT);
-  pinMode(PIN_A5, OUTPUT);
+  pinMode(PIN_A0, OUTPUT);    // 14
+  digitalWrite(PIN_A0, HIGH); // invers
+  pinMode(PIN_A1, OUTPUT);    // 15
+  digitalWrite(PIN_A1, HIGH); // invers
+  pinMode(PIN_A2, OUTPUT);    // 16
+  digitalWrite(PIN_A2, HIGH); // invers
+
+  //pinMode(PIN_A4, OUTPUT);
+  //pinMode(PIN_A5, OUTPUT);
 }
 
 void loop() {
@@ -165,13 +167,15 @@ void loop() {
       } else
       if (content.equals("/ball,1"))
       {
-        digitalWrite(18, HIGH);
-        digitalWrite(19, LOW);
+        digitalWrite(16, LOW);
+        //digitalWrite(18, HIGH);
+        //digitalWrite(19, LOW);
       } else
       if (content.equals("/ball,0"))
       {
-        digitalWrite(18, LOW);
-        digitalWrite(19, LOW);
+        digitalWrite(16, HIGH);
+        //digitalWrite(18, LOW);
+        //digitalWrite(19, LOW);
       } else
       if (content.equals("/breaker,1"))
       {
