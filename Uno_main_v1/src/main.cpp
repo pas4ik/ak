@@ -10,7 +10,7 @@ Servo serv;
 SoftwareSerial swserial1(2, 3);
 
 byte mac[] = { 0xDE, 0xAD, 0xBE, 0xEF, 0xFE, 0xED};
-IPAddress ip(192, 168, 16, 2);
+IPAddress ip(192, 168, 0, 185);
 unsigned int localPort = 8001;      // local port to listen on
 char packetBuffer[50];  // buffer to hold incoming packet,
 char ReplyBuffer[] = "acknowledged\n";        // a string to send back
@@ -55,7 +55,7 @@ void loop() {
   static String   content = "";
   char ch;
   static uint8_t  com = 0, phone_state = 0;
-  const uint8_t   Phone_numb[] = {0,5,0,1,0,4,0,2,0,6,0,6,0,1,0};
+  const uint8_t   Phone_numb[] = {0,5,0,1,0,4,0,2};//{0,5,0,1,0,4,0,2,0,6,0,6,0,1,0};
   static uint8_t  phone_num_ind, phone_cnt_rings;
 // test
 /*
@@ -165,13 +165,13 @@ void loop() {
       } else
       if (content.equals("/ball,1"))
       {
-        digitalWrite(19, LOW);
         digitalWrite(18, HIGH);
+        digitalWrite(19, LOW);
       } else
       if (content.equals("/ball,0"))
       {
         digitalWrite(18, LOW);
-        digitalWrite(19, HIGH);
+        digitalWrite(19, LOW);
       } else
       if (content.equals("/breaker,1"))
       {
@@ -224,7 +224,7 @@ void loop() {
     {
       if (digitalRead(5) == HIGH)  // если плеер1 не занят
       {
-        if (phone_cnt_rings < 5)
+        if (phone_cnt_rings < 3)
         {
           digitalWrite(4, LOW);
           delay(100);
