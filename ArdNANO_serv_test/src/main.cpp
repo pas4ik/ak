@@ -2,9 +2,9 @@
 #include "Servo.h"
 #include "SoftwareSerial.h"
 
-#define SERVO_GO    73
+#define SERVO_GO    70
 //#define SERVO_STOP  87
-#define SERVO_STOP  1450
+#define SERVO_STOP  1460
 #define START_BYTE  'S'
 #define START       1
 #define STOP        2
