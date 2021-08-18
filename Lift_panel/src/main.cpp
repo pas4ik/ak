@@ -2,7 +2,7 @@
 #include <PCF8574.h>
 #include <Wire.h>
 
-#define N_STEPS_MAX 15
+#define N_STEPS_MAX 15  // max steps of scenario
 #define ON  1
 #define OFF 0
 
@@ -11,18 +11,21 @@ void LED_ctrl(uint8_t n_led, uint8_t act);
 PCF8574 pcf20(0x20), pcf21(0x21);
 
 const int scenario[N_STEPS_MAX][1+14+1]=
-{// time, action ("+x" - turn led X on, "-x" - turn led X off)
-  { 10, +1, 0},
-  { 20, +2, -1,0},
-  { 30, +3, -2,0},
-  { 40, +4, -3,0},
-  { 50, +5, -4,0},
-  { 60, +6, -5,0},
-  { 70, +7, -6,0},
-  { 80, +8, -7,0},
-  { 90, +9, -8,0},
-  {100,+10, -9,0},
-  {110,+11,0}
+{// time, actions ("+x" - turn led X on, "-x" - turn led X off), 0-end
+  {  1, +12, +14, 0},  // floor 12 & arrow down on
+  { 20, -12, +11, 0},  // floor 12 off, 11 on
+  { 40, -11, +10, 0},
+  { 60, -10,  +9, 0},
+  { 80,  -9,  +8, 0},
+  {100,  -8,  +7, 0},
+  {120,  -7,  +6, 0},
+  {140,  -6,  +5, 0},
+  {160,  -5,  +4, 0},
+  {180,  -4,  +3, 0},
+  {200,  -3,  +2, 0},
+  {220,  -2,  +1, +13, 0},  // floor 1 & arrow up on
+  {240, +12, 0},            // arrow down on
+  {440,  -1, -13, -14, 0}   // all off
 };
 
 void setup() {
@@ -30,23 +33,9 @@ void setup() {
   pcf20.begin();
   pcf21.begin();
   
-  pinMode(7, INPUT_PULLUP); // start input
-  pinMode(8, INPUT_PULLUP); // stop input
-  pinMode(LED_BUILTIN, OUTPUT);
-
-  //Serial.println("start");
-  //Serial.print(scenario[1][0]);
-  //Serial.print(' ');
-  //Serial.print(scenario[1][1]);
-  //Serial.print(' ');
-  //Serial.print(scenario[1][2]);
-
-  //LED_ctrl(16, ON);
-  //_delay_ms(1000);
-  //LED_ctrl(1,LOW);
-  //pcf20.write(0, );
-  //_delay_ms(1000);
-  //LED_ctrl(2,HIGH);
+  pinMode(7, INPUT_PULLUP);     // start input
+  pinMode(8, INPUT_PULLUP);     // stop input
+  pinMode(LED_BUILTIN, OUTPUT); // onboard led
 }
 
 void LED_ctrl(uint8_t n_led, uint8_t act)
@@ -62,15 +51,15 @@ void LED_ctrl(uint8_t n_led, uint8_t act)
 }
 
 void loop() {
-  static unsigned long blinkMillis;
+  static unsigned long oldMillis;
   static unsigned int but1_ON, but1_old, but1_cnt,
                       but2_ON, but2_old, but2_cnt,
                       scen_time = 0;
   static uint8_t run = 0, st_led_cnt = 0, scen_step;
   
-  unsigned int currentMillis = millis(), i, j;
+  unsigned int currentMillis = millis(), j;
 
-  if (digitalRead(7) == 0)
+  if (digitalRead(7) == 0)  // debounce start but
   {
       if (but1_old == 1)
       {
@@ -84,7 +73,7 @@ void loop() {
     but1_ON = 0;
   }
 
-  if (digitalRead(8) == 0)
+  if (digitalRead(8) == 0)  // debounce stop but
   {
       if (but2_old == 1)
       {
@@ -98,9 +87,9 @@ void loop() {
     but2_ON = 0;
   }
 
-  if (currentMillis - blinkMillis >= 100)
+  if (currentMillis - oldMillis >= 100) // timeout 100 ms
   {
-    blinkMillis = currentMillis;
+    oldMillis = currentMillis;
     
     if (run == 0)
     {
@@ -111,22 +100,6 @@ void loop() {
         run = 1;
         scen_time = 0;
         scen_step = 0;
-      } else
-      // led flashing
-      if (digitalRead(LED_BUILTIN) == 0)
-      {
-        if (++st_led_cnt >= 9)
-        {
-          st_led_cnt = 0;
-          digitalWrite(LED_BUILTIN, HIGH);
-        }
-      } else
-      {
-        if (++st_led_cnt >= 1)
-        {
-          st_led_cnt = 0;
-          digitalWrite(LED_BUILTIN, LOW);
-        }
       }
     } else
     if (run == 1)
@@ -148,28 +121,37 @@ void loop() {
       if (scen_time >= (uint16_t)(scenario[scen_step][0]))
       {
         if (scenario[scen_step][0] == 0) run = 0;
-        Serial.print(scenario[scen_step][0]);
-        Serial.print(' ');
         j = 0;
         while (scenario[scen_step][++j] != 0)
         {
           if (scenario[scen_step][j] > 0) LED_ctrl(scenario[scen_step][j], ON);
           else if (scenario[scen_step][j] < 0) LED_ctrl((uint8_t)(-1*scenario[scen_step][j]), OFF);
-          Serial.print(scenario[scen_step][j]);
-          Serial.print(' ');
         }
-        Serial.println("");
-
         if (run != 0) scen_step++;
       }
       
       if (run == 0)
       {
         for (j = 1; j <= 16; j++) LED_ctrl(j, 0); // all off
-      }// else scen_step++;
+      }
     } else
     {
-
+      // onboard led flashing
+      if (digitalRead(LED_BUILTIN) == 0)
+      {
+        if (++st_led_cnt >= 9)
+        {
+          st_led_cnt = 0;
+          digitalWrite(LED_BUILTIN, HIGH);
+        }
+      } else
+      {
+        if (++st_led_cnt >= 1)
+        {
+          st_led_cnt = 0;
+          digitalWrite(LED_BUILTIN, LOW);
+        }
+      }
     }
   }
 }
