@@ -33,8 +33,8 @@ void setup() {
   pcf20.begin();
   pcf21.begin();
   
-  pinMode(7, INPUT_PULLUP);     // start input
-  pinMode(8, INPUT_PULLUP);     // stop input
+  pinMode(2, INPUT_PULLUP);     // start input
+  pinMode(3, INPUT_PULLUP);     // stop input
   pinMode(LED_BUILTIN, OUTPUT); // onboard led
 }
 
@@ -59,7 +59,7 @@ void loop() {
   
   unsigned int currentMillis = millis(), j;
 
-  if (digitalRead(7) == 0)  // debounce start but
+  if (digitalRead(2) == 0)  // debounce start but
   {
       if (but1_old == 1)
       {
@@ -73,7 +73,7 @@ void loop() {
     but1_ON = 0;
   }
 
-  if (digitalRead(8) == 0)  // debounce stop but
+  if (digitalRead(3) == 0)  // debounce stop but
   {
       if (but2_old == 1)
       {
