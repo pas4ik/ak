@@ -24,7 +24,7 @@ const int scenario[N_STEPS_MAX][1+14+1]=
   {180,  -4,  +3, 0},
   {200,  -3,  +2, 0},
   {220,  -2,  +1, +13, 0},  // floor 1 & arrow up on
-  {240, +12, 0},            // arrow down on
+  {240, +14, 0},            // arrow down on
   {440,  -1, -13, -14, 0}   // all off
 };
 
