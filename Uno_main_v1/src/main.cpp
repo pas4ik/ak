@@ -5,6 +5,8 @@
 #include "EthernetUdp2.h"
 #include "SoftwareSerial.h"
 
+#define FLASH_TIMEOUT   2000  // 2 s
+
 Servo serv;
 
 SoftwareSerial swserial1(2, 3);
@@ -53,6 +55,7 @@ void setup() {
 void loop() {
   static unsigned long  phone_time = 0, phone_time_old = 0;
   static unsigned long  UDP_time = 0, UDP_time_old = 0;
+  static unsigned long  flash_time = 0, flash_time_old = 0;
   static uint16_t       phone_timeout_num = 0;
   static String   content = "";
   char ch;
@@ -130,7 +133,7 @@ void loop() {
     int packetSize = Udp.parsePacket();
     if (packetSize)
     {
-      IPAddress remote = Udp.remoteIP();    
+      //IPAddress remote = Udp.remoteIP();    
       //Serial.println(Udp.remotePort());
       for (uint16_t _i = 0; _i < 50; _i++) packetBuffer[_i] = 0;
       Udp.read(packetBuffer, packetSize);
@@ -152,6 +155,7 @@ void loop() {
       if (content.equals("/energymeter_flash,1"))
       {
         digitalWrite(14, LOW);
+        flash_time_old = millis();  // for timeout flash off
       } else
       if (content.equals("/energymeter_flash,0"))
       {
@@ -192,7 +196,15 @@ void loop() {
       Udp.endPacket();
     }
   }
-
+  
+  if (digitalRead(14) == HIGH)  // if flashing
+  {
+    flash_time = millis();
+    if (flash_time > flash_time_old + FLASH_TIMEOUT)
+    {
+      digitalWrite(14, HIGH);
+    }
+  }
   phone_time = millis();
   if ((com == 1) && (phone_time > phone_time_old + 100))
   {
