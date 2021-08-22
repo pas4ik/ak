@@ -48,6 +48,11 @@ void setup() {
   pinMode(PIN_A2, OUTPUT);    // 16
   digitalWrite(PIN_A2, HIGH); // invers
 
+  pinMode(17, OUTPUT);        // for lift_panel start
+  digitalWrite(17, HIGH);     // invers
+  pinMode(18, OUTPUT);        // for lift panel stop
+  digitalWrite(18, HIGH);     // invers
+
   //pinMode(PIN_A4, OUTPUT);
   //pinMode(PIN_A5, OUTPUT);
 }
@@ -56,6 +61,7 @@ void loop() {
   static unsigned long  phone_time = 0, phone_time_old = 0;
   static unsigned long  UDP_time = 0, UDP_time_old = 0;
   static unsigned long  flash_time = 0, flash_time_old = 0;
+  static unsigned long  lift_time = 0, lift_time_old = 0;
   static uint16_t       phone_timeout_num = 0;
   static String   content = "";
   char ch;
@@ -188,6 +194,16 @@ void loop() {
       if (content.equals("/breaker,0"))
       {
         digitalWrite(15, HIGH);
+      } else
+      if (content.equals("/lift_panel,1"))
+      {
+        digitalWrite(17, LOW);
+        lift_time_old = millis();  // for pin off
+      } else
+      if (content.equals("/lift_panel,0"))
+      {
+        digitalWrite(18, LOW);
+        lift_time_old = millis();  // for pin off
       }
 
       Udp.beginPacket(Udp.remoteIP(), Udp.remotePort());
@@ -203,6 +219,16 @@ void loop() {
     if (flash_time > flash_time_old + FLASH_TIMEOUT)
     {
       digitalWrite(14, HIGH);
+    }
+  }
+  // lift panel control pins timeout off
+  if ((digitalRead(17) == LOW) || (digitalRead(18) == LOW))
+  {
+    lift_time = millis();
+    if (lift_time > lift_time_old + 200)  // 200 ms impulse
+    {
+      digitalWrite(17, HIGH);
+      digitalWrite(18, HIGH);
     }
   }
   phone_time = millis();
