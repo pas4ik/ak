@@ -185,11 +185,43 @@
          </ControlMessage>
       </Sub>
    </Cue>
+   <Cue>
+      <CueId>Q11</CueId>
+      <Description>панель лифта пуск</Description>
+      <Sub>
+         <SubType>M</SubType>
+         <SubDescription>Network Send</SubDescription>
+         <DefSubDes>1</DefSubDes>
+         <ControlMessage>
+            <CMLogicalDev>animatron</CMLogicalDev>
+            <NetworkEntryMode>ASCII</NetworkEntryMode>
+            <NetworkAddCR>0</NetworkAddCR>
+            <NetworkAddLF>0</NetworkAddLF>
+            <NetworkData>/lift_panel,1</NetworkData>
+         </ControlMessage>
+      </Sub>
+   </Cue>
+   <Cue>
+      <CueId>Q12</CueId>
+      <Description>панель лифта стоп</Description>
+      <Sub>
+         <SubType>M</SubType>
+         <SubDescription>Network Send</SubDescription>
+         <DefSubDes>1</DefSubDes>
+         <ControlMessage>
+            <CMLogicalDev>animatron</CMLogicalDev>
+            <NetworkEntryMode>ASCII</NetworkEntryMode>
+            <NetworkAddCR>0</NetworkAddCR>
+            <NetworkAddLF>0</NetworkAddLF>
+            <NetworkData>/lift_panel,0</NetworkData>
+         </ControlMessage>
+      </Sub>
+   </Cue>
    <Files>
    </Files>
    <FileSaveInfo>
       <_CueFile_>D:\temp\ak\test1.scs11</_CueFile_>
-      <_Saved_>2021/07/29 20:43:57</_Saved_>
+      <_Saved_>2021/08/21 17:41:49</_Saved_>
       <_SCS_Version_>11.8.4.1 (Demo)</_SCS_Version_>
       <_SCS_Build_>2021/03/31 10:20</_SCS_Build_>
    </FileSaveInfo>
