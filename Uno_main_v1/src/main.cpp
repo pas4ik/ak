@@ -213,7 +213,7 @@ void loop() {
     }
   }
   
-  if (digitalRead(14) == HIGH)  // if flashing
+  if (digitalRead(14) == LOW)  // if flashing
   {
     flash_time = millis();
     if (flash_time > flash_time_old + FLASH_TIMEOUT)
