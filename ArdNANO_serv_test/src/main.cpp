@@ -70,6 +70,7 @@ void loop() {
     {
       digitalWrite(LED_BUILTIN, LOW);
       //serv.write(SERVO_STOP);
+      delay(100);
       serv.writeMicroseconds(SERVO_STOP);
       run = 0;
       com = 0;
