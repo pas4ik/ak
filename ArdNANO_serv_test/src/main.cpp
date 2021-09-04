@@ -9,6 +9,7 @@
 #define START       1
 #define STOP        2
 #define PIN_GERKON  PIN6
+#define PIN_MOSFET  PIN5
 #define TIMEOUT_STOP_WO_GERK  3000 // ms
 
 Servo serv;
@@ -17,11 +18,13 @@ uint8_t run = 0;
 
 void setup() {
   pinMode(LED_BUILTIN, OUTPUT); // LED
+  pinMode(PIN_MOSFET, OUTPUT); // MOSFET
   pinMode(PIN_GERKON, INPUT_PULLUP); // input zero gerkon
   swserial1.begin(9600);    // interface for radio control
   serv.attach(7);           // servo pin
   //serv.write(SERVO_STOP);
   serv.writeMicroseconds(SERVO_STOP);
+  digitalWrite(PIN_MOSFET, LOW);
 }
 
 void loop() {
@@ -57,6 +60,7 @@ void loop() {
   if (com == START)
   {
     digitalWrite(LED_BUILTIN, HIGH);
+    digitalWrite(PIN_MOSFET, HIGH);
     serv.write(SERVO_GO);
     run = 1;
     com = 0;
@@ -71,6 +75,7 @@ void loop() {
       digitalWrite(LED_BUILTIN, LOW);
       //serv.write(SERVO_STOP);
       serv.writeMicroseconds(SERVO_STOP);
+      digitalWrite(PIN_MOSFET, LOW);
       run = 0;
       com = 0;
       //swserial1.write('g');
@@ -80,6 +85,7 @@ void loop() {
       digitalWrite(LED_BUILTIN, LOW);
       //serv.write(SERVO_STOP);
       serv.writeMicroseconds(SERVO_STOP);
+      digitalWrite(PIN_MOSFET, LOW);
       run = 0;
       com = 0;
     }
