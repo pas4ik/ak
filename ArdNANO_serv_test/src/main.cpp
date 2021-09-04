@@ -74,6 +74,7 @@ void loop() {
     {
       digitalWrite(LED_BUILTIN, LOW);
       //serv.write(SERVO_STOP);
+      delay(100);
       serv.writeMicroseconds(SERVO_STOP);
       digitalWrite(PIN_MOSFET, LOW);
       run = 0;
