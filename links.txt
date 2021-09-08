@@ -1,3 +1,9 @@
+https://micro-pi.ru/platformio-visual-studio-code-arduino/  
+среда разработки
+
+http://www.getchip.net/posts/136-gc-uploader-avtomaticheskijj-zagruzchik-hex-fajjlov-dlya-arduino/  
+утилита для прошивки
+
 https://habr.com/ru/post/382565/
 Ethernet Library или почему в природе не существует серверов на Arduino
 
