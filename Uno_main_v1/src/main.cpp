@@ -261,12 +261,20 @@ void loop() {
           phone_cnt_rings = 0;
         }
       }
+      // если озвучка еще не запущена - запускаем
+      if (digitalRead(5) == HIGH)  // если плеер1 не занят
+      {
+        digitalWrite(4, LOW);
+        delay(100);
+        digitalWrite(4, HIGH);
+        delay(100);
+      }
     } else
     if (phone_state == 2)
     {
       if (digitalRead(5) == HIGH)  // если плеер1 не занят
       {
-        if (phone_cnt_rings < 3)
+        /*if (phone_cnt_rings < 3)
         {
           digitalWrite(4, LOW);
           delay(100);
@@ -274,10 +282,10 @@ void loop() {
           delay(100);
           phone_cnt_rings++;
         } else
-        {
+        {*/
           // если телефон прозвонил 5 раз, а трубку так и не сняли
           phone_state = 10;
-        }
+        //}
       } else
       {
         // если снимут трубку в то время, когда телефон звонит
