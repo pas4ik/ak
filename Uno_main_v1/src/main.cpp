@@ -58,7 +58,7 @@ void setup() {
 }
 
 void loop() {
-  static unsigned long  phone_time = 0, phone_time_old = 0;
+  static unsigned long  phone_time = 0, phone_time_old = 0, phone_disk_timeout = 0;
   static unsigned long  UDP_time = 0, UDP_time_old = 0;
   static unsigned long  flash_time = 0, flash_time_old = 0;
   static unsigned long  lift_time = 0, lift_time_old = 0;
@@ -150,6 +150,7 @@ void loop() {
         com = 1;
         phone_state = 1;
         phone_num_ind = 0;
+        phone_disk_timeout = millis();
         //Serial.println("is com phone");
         
       } else
@@ -238,30 +239,33 @@ void loop() {
     
     if (phone_state == 1)
     {
-      if (phone_timeout_num++ > 10)
+      if (phone_time - phone_disk_timeout > 3000)  // задержка перед началом вращения диска 3 с
       {
-        phone_timeout_num = 0;
-        if (phone_num_ind < sizeof(Phone_numb))
+        if (phone_timeout_num++ > 10)
         {
-          phone_num_ind++;
-          if (Phone_numb[phone_num_ind - 1] > 0)
+          phone_timeout_num = 0;
+          if (phone_num_ind < sizeof(Phone_numb))
           {
-            Serial.println(Phone_numb[phone_num_ind - 1]);
-            Serial.println(145 - ((Phone_numb[phone_num_ind - 1]) * 17));
-            serv.write(145 - ((Phone_numb[phone_num_ind - 1])* 17));
+            phone_num_ind++;
+            if (Phone_numb[phone_num_ind - 1] > 0)
+            {
+              Serial.println(Phone_numb[phone_num_ind - 1]);
+              Serial.println(145 - ((Phone_numb[phone_num_ind - 1]) * 17));
+              serv.write(145 - ((Phone_numb[phone_num_ind - 1])* 17));
+            } else
+            {
+              Serial.println(145);
+              serv.write(145);
+            }
           } else
           {
-            Serial.println(145);
             serv.write(145);
+            phone_state = 2;
+            phone_cnt_rings = 0;
           }
-        } else
-        {
-          serv.write(145);
-          phone_state = 2;
-          phone_cnt_rings = 0;
         }
       }
-      // если озвучка еще не запущена - запускаем
+      // если озвучка еще не запущена - запускаем, сразу, до начала вращения диска
       if (digitalRead(5) == HIGH)  // если плеер1 не занят
       {
         digitalWrite(4, LOW);
